@@ -2,135 +2,257 @@
 
 ## Project Overview
 
-This project analyzes customer churn patterns and builds a predictive model to identify customers who are at higher risk of leaving.
+This project analyzes customer churn for a telecommunications company and combines **exploratory data analysis, statistical testing, correlation analysis, and machine learning** to identify factors associated with customer churn and predict customers who may be at risk of leaving.
 
-The analysis combines:
+The project moves beyond descriptive analysis by building a **Logistic Regression model** that assigns each customer a churn probability and categorizes customers into different risk levels.
 
-- Data cleaning and exploratory data analysis
-- Statistical hypothesis testing
-- Correlation analysis
-- Logistic regression
-- Churn probability prediction
-- Customer risk segmentation
-- Business-focused retention recommendations
-
-The goal is to move from simply understanding **why customers churn** to identifying **which customers are most at risk of churn** so that retention strategies can be targeted effectively.
+The objective is to help retention teams understand **why customers churn** and **which customers should be prioritized for retention efforts**.
 
 ---
 
 ## Business Objectives
 
-- Measure overall customer churn and retention
-- Identify customer segments with higher churn rates
-- Analyze factors associated with customer churn
-- Statistically validate important churn relationships
-- Build a machine learning model to predict churn
-- Estimate individual customer churn probability
-- Segment customers into Low, Medium, and High risk categories
-- Translate analytical findings into actionable retention strategies
+- Identify the major factors associated with customer churn.
+- Understand how customer characteristics and service choices relate to churn.
+- Statistically test important relationships with churn.
+- Build a machine learning model to predict customer churn.
+- Evaluate the model using Accuracy, Precision, Recall, and F1 Score.
+- Compare model performance against a simple majority-class baseline.
+- Generate churn probabilities for individual customers.
+- Segment customers into Low, Medium, and High churn-risk categories.
+- Translate analytical findings into actionable retention recommendations.
 
 ---
 
 ## Dataset
 
-The project uses the **Telco Customer Churn** dataset containing customer-level information such as:
+The project uses the **IBM Telco Customer Churn dataset**, containing information about **7,043 customers** and 21 customer, service, billing, and churn-related attributes.
 
-- Customer demographics
-- Contract type
-- Tenure
-- Internet service
-- Additional services
-- Payment method
-- Monthly charges
-- Total charges
-- Churn status
+### Important Variables
 
-**Dataset size:** 7,043 customers and 21 attributes
+- `customerID` — Unique customer identifier
+- `gender` — Customer gender
+- `SeniorCitizen` — Whether the customer is a senior citizen
+- `Partner` — Whether the customer has a partner
+- `Dependents` — Whether the customer has dependents
+- `tenure` — Number of months the customer has stayed with the company
+- `PhoneService` — Whether the customer has phone service
+- `InternetService` — Type of internet service
+- `OnlineSecurity` — Online security subscription
+- `TechSupport` — Technical support subscription
+- `Contract` — Contract type
+- `PaymentMethod` — Payment method
+- `MonthlyCharges` — Monthly customer charges
+- `TotalCharges` — Total charges
+- `Churn` — Whether the customer left the company
 
 ---
 
 ## Tools & Technologies
 
 - **Python**
-- **Pandas**
-- **NumPy**
-- **Matplotlib**
-- **Seaborn**
-- **SciPy**
-- **Scikit-learn**
-- **Jupyter Notebook**
-- **Git & GitHub**
+- **Pandas** — Data manipulation and analysis
+- **NumPy** — Numerical operations
+- **Matplotlib** — Data visualization
+- **Seaborn** — Statistical visualization
+- **SciPy** — Statistical testing
+- **Scikit-learn** — Machine learning and model evaluation
+- **Jupyter Notebook** — Analysis environment
+- **Git & GitHub** — Version control and project management
 
 ---
 
-## Analysis Performed
+## Project Workflow
 
-### 1. Data Cleaning
+The analysis follows the workflow below:
 
-- Checked dataset structure and data types
-- Identified and handled blank values in `TotalCharges`
-- Converted `TotalCharges` to numeric format
-- Checked for duplicate records
-- Validated categorical variables
-
-### 2. Exploratory Data Analysis
-
-Analyzed churn patterns across:
-
-- Contract type
-- Customer tenure
-- Monthly charges
-- Internet service
-- Technical support
-- Online security
-- Payment method
-
-### 3. Statistical Analysis
-
-Statistical tests were performed to validate observed patterns:
-
-- Chi-Square test — Contract Type vs Churn
-- Chi-Square test — Payment Method vs Churn
-- Independent two-sample t-test — Monthly Charges vs Churn
-
-### 4. Correlation Analysis
-
-Correlation analysis was performed between numerical variables and churn.
-
-Key observations:
-
-- Tenure showed a negative relationship with churn.
-- Monthly charges showed a positive relationship with churn.
-- Tenure and total charges showed a strong positive relationship.
-
-Correlation was used to identify relationships between variables and does not imply causation.
+1. Data Understanding
+2. Data Cleaning
+3. Exploratory Data Analysis
+4. Statistical Analysis
+5. KPI Analysis
+6. Correlation Analysis
+7. Logistic Regression
+8. Model Evaluation
+9. Churn Driver Analysis
+10. Customer Risk Segmentation
+11. Business Insights & Recommendations
 
 ---
 
-## 5. Churn Prediction — Logistic Regression
+## Data Cleaning
 
-A Logistic Regression model was developed to predict customer churn.
+The dataset was checked and prepared before analysis.
+
+Key cleaning steps included:
+
+- Checked for duplicate customer records.
+- Converted `TotalCharges` into a numerical format.
+- Identified missing values in `TotalCharges`.
+- Missing `TotalCharges` values were replaced with `0` because the affected customers had zero tenure.
+- Verified data types and dataset consistency before analysis.
+
+---
+
+## Exploratory Data Analysis
+
+The analysis examined churn across several important customer characteristics.
+
+### Churn Rate by Contract
+
+Contract type showed a strong difference in customer churn.
+
+- **Month-to-month:** 42.71% churn
+- **One-year:** 11.27% churn
+- **Two-year:** 2.83% churn
+
+Month-to-month customers therefore represent a particularly important retention segment.
+
+### Churn and Customer Tenure
+
+Churned customers had substantially shorter relationships with the company.
+
+- Median tenure of churned customers: **10 months**
+- Median tenure of retained customers: **38 months**
+
+This indicates that customers in the early stages of their relationship may require additional engagement and retention efforts.
+
+### Churn by Internet Service
+
+Fiber optic customers showed elevated churn.
+
+- **Fiber optic:** 41.89% churn
+- **DSL:** 18.96% churn
+
+This makes fiber optic customers an important segment for further investigation.
+
+### Churn by Payment Method
+
+Customers using electronic checks showed a particularly high churn rate.
+
+- **Electronic check:** 45.29% churn
+
+### Monthly Charges
+
+Churned customers had higher monthly charges than retained customers.
+
+- Median monthly charges for churned customers: **$79.65**
+- Median monthly charges for retained customers: **$64.43**
+
+This suggests that pricing and perceived value may be relevant areas for retention analysis.
+
+---
+
+## Statistical Analysis
+
+Statistical tests were performed to determine whether selected customer characteristics had statistically significant relationships with churn.
+
+### Chi-Square Tests
+
+Chi-square tests were used for categorical variables.
+
+Significant associations with churn were found for:
+
+- **Contract**
+- **Payment Method**
+
+These results support the patterns observed during exploratory analysis.
+
+### Independent T-Test
+
+An independent t-test was used to compare `MonthlyCharges` between churned and retained customers.
+
+The results indicated a statistically significant difference in monthly charges between the two groups.
+
+---
+
+## Correlation Analysis
+
+A correlation matrix was created for the numerical variables:
+
+- `tenure`
+- `MonthlyCharges`
+- `TotalCharges`
+- `Churn`
+
+### Key Correlations
+
+| Variable | Correlation with Churn |
+|---|---:|
+| Tenure | **-0.352** |
+| MonthlyCharges | **+0.193** |
+| TotalCharges | **-0.198** |
+
+### Interpretation
+
+- **Tenure** has a moderate negative correlation with churn, indicating that longer-tenure customers tend to have lower churn rates.
+- **MonthlyCharges** have a weak positive correlation with churn, indicating that customers with higher monthly charges tend to show somewhat higher churn.
+- **TotalCharges** have a weak negative correlation with churn.
+- `tenure` and `TotalCharges` have a strong positive correlation because customers who stay longer generally accumulate higher total charges.
+
+Correlation indicates association and should not be interpreted as proof of causation.
+
+---
+
+# Churn Prediction Using Logistic Regression
+
+## Machine Learning Objective
+
+A Logistic Regression model was developed to predict whether a customer is likely to churn.
+
+The target variable was:
+
+- `0` = No Churn
+- `1` = Churn
 
 ### Features Used
 
-- Tenure
-- Monthly Charges
-- Total Charges
-- Contract
-- Internet Service
-- Payment Method
-- Tech Support
-- Online Security
-- Senior Citizen
+The model uses:
 
-Categorical variables were converted into numerical features using one-hot encoding.
+- `tenure`
+- `MonthlyCharges`
+- `TotalCharges`
+- `Contract`
+- `InternetService`
+- `PaymentMethod`
+- `TechSupport`
+- `OnlineSecurity`
+- `SeniorCitizen`
 
-The dataset was divided into:
+Categorical variables were one-hot encoded and numerical variables were standardized.
 
-- **80% training data**
-- **20% test data**
+---
 
-### Model Evaluation
+## Leakage-Safe Preprocessing
+
+The machine learning workflow uses a **Scikit-learn Pipeline and ColumnTransformer**.
+
+The dataset was first divided into training and testing sets. Preprocessing was then learned only from the training data.
+
+The pipeline performs:
+
+- Standardization of numerical features
+- One-hot encoding of categorical features
+- Logistic Regression classification
+
+This prevents information from the test dataset from influencing the preprocessing stage and helps avoid train/test data leakage.
+
+---
+
+## Train-Test Split
+
+The dataset was divided using an **80/20 train-test split**.
+
+- Training data: **80%**
+- Test data: **20%**
+- `random_state = 42`
+- Stratified split was used to preserve the churn distribution.
+
+The final test set contains **1,409 customers**.
+
+---
+
+## Model Evaluation
 
 The model was evaluated using:
 
@@ -138,106 +260,161 @@ The model was evaluated using:
 - Precision
 - Recall
 - F1 Score
-- Confusion Matrix
 
-A probability threshold of **0.35** was selected using validation data to improve the model's ability to identify potential churners.
+Because this is a customer-retention problem, identifying potential churners is particularly important.
 
-### Final Test Performance
+### Final Model Performance
+
+A **35% churn-probability threshold** was selected using validation data.
 
 | Metric | Result |
 |---|---:|
-| Accuracy | 77.15% |
-| Precision | 55.31% |
-| Recall | 72.46% |
-| F1 Score | 62.73% |
+| Accuracy | **77.08%** |
+| Precision | **55.19%** |
+| Recall | **72.46%** |
+| F1 Score | **62.66%** |
 
-The 0.35 threshold prioritizes identifying more potential churners, making recall particularly relevant for a customer-retention use case.
+### Baseline Comparison
+
+The majority-class baseline accuracy is **73.46%**.
+
+The Logistic Regression model therefore improves over the baseline by **3.62 percentage points**.
+
+This provides context for the model's accuracy rather than evaluating the 77.08% figure in isolation.
 
 ---
 
-## 6. Churn Driver Analysis
+## Threshold Selection
 
-Logistic regression coefficients were analyzed to identify features associated with higher or lower predicted churn.
+Instead of automatically using the default 50% classification threshold, several probability thresholds were evaluated using validation data.
+
+The threshold affected the balance between precision and recall.
+
+A **35% threshold** was selected because it provided the strongest validation F1 score among the tested thresholds while maintaining relatively high recall.
+
+For this retention use case, the threshold was chosen to **prioritize recall over precision**, because identifying more potential churners is more valuable than minimizing false alarms.
+
+---
+
+## Confusion Matrix
+
+At the selected 35% threshold, the model produced the following results on the test dataset:
+
+| | Predicted No Churn | Predicted Churn |
+|---|---:|---:|
+| **Actual No Churn** | 815 | 220 |
+| **Actual Churn** | 103 | 271 |
+
+This means the model correctly identified **271 actual churners**, while **103 actual churners were missed**.
+
+The model also generated some false alarms, where customers predicted to churn ultimately did not churn.
+
+---
+
+# Churn Driver Analysis
+
+The Logistic Regression coefficients were examined to understand which features were associated with higher or lower predicted churn.
 
 ### Stronger Positive Churn Associations
 
-- Fiber optic internet service
-- Electronic check payment method
-- Senior citizen status
+The model identified several features with positive coefficients, including:
+
+- **Fiber optic internet service**
+- **Electronic check payment method**
+- **Higher monthly charges**
+- **Senior citizen status**
+
+Positive coefficients indicate higher predicted churn probability relative to the relevant reference category or feature scale.
 
 ### Stronger Negative Churn Associations
 
-- Two-year contracts
-- One-year contracts
-- Online security
-- Tech support
+Features with negative coefficients included:
 
-These coefficients represent model associations and should not be interpreted as proof of causation.
+- **One-year contracts**
+- **Two-year contracts**
+- **Online security subscription**
+- **Technical support subscription**
+- **Longer tenure**
+
+Negative coefficients indicate lower predicted churn probability relative to the relevant reference category or feature scale.
+
+These coefficients represent model associations and should not be interpreted as proof that a feature directly causes churn.
 
 ---
 
-## 7. Customer Risk Segmentation
+# Customer Risk Segmentation
 
-The model's churn probabilities were converted into three practical risk categories:
+The model's churn probabilities were converted into three practical customer risk categories.
 
 | Risk Category | Churn Probability |
 |---|---:|
-| Low Risk | < 35% |
-| Medium Risk | 35% – 60% |
-| High Risk | > 60% |
+| **Low Risk** | < 35% |
+| **Medium Risk** | 35% – 60% |
+| **High Risk** | > 60% |
 
 ### Test Dataset Risk Distribution
 
 | Risk Category | Customers | Share |
 |---|---:|---:|
-| Low Risk | 919 | 65.2% |
-| Medium Risk | 287 | 20.4% |
-| High Risk | 203 | 14.4% |
+| **High Risk** | 202 | 14.3% |
+| **Medium Risk** | 289 | 20.5% |
+| **Low Risk** | 918 | 65.2% |
 | **Total** | **1,409** | **100%** |
 
 This segmentation allows retention teams to prioritize customers based on predicted churn risk.
 
 ---
 
-## Key Business Findings
+# Key Business Findings
 
-- Month-to-month customers had the highest churn rate at **42.71%**.
+- **Month-to-month customers had the highest churn rate at 42.71%.**
 - Churned customers had a median tenure of **10 months**, compared with **38 months** for retained customers.
-- Fiber optic customers had a churn rate of **41.89%**.
-- Electronic check users had the highest churn rate at **45.29%**.
+- **Fiber optic customers had a churn rate of 41.89%.**
+- **Electronic check users had a churn rate of 45.29%.**
 - Churned customers had higher median monthly charges (**$79.65**) than retained customers (**$64.43**).
 - Contract type and payment method showed statistically significant associations with churn.
-- Monthly charges differed significantly between churned and retained customers.
-- The predictive model identified **203 customers as High Risk** and **287 as Medium Risk** in the test dataset.
+- Tenure showed a negative correlation with churn.
+- The Logistic Regression model achieved **72.46% recall** and **62.66% F1 Score** at the selected threshold.
+- The predictive model identified **202 customers as High Risk** and **289 as Medium Risk** in the test dataset.
 
 ---
 
-## Business Recommendations
+# Business Recommendations
 
-1. **Reduce month-to-month churn**
-   - Encourage customers to move toward longer-term contracts through targeted incentives.
+### 1. Target Month-to-Month Customers
 
-2. **Strengthen early customer retention**
-   - Focus onboarding and proactive engagement efforts on newer customers.
+Offer suitable incentives, discounts, or additional benefits to encourage month-to-month customers to move to longer-term contracts.
 
-3. **Investigate fiber optic churn**
-   - Analyze pricing, service quality, and customer experience among fiber optic customers.
+### 2. Investigate Fiber Optic Churn
 
-4. **Improve payment experience**
-   - Investigate the high churn associated with electronic check payments and encourage alternative payment methods where appropriate.
+Examine pricing, service quality, customer experience, and technical support issues affecting fiber optic customers.
 
-5. **Prioritize high-risk customers**
-   - Use predicted churn probabilities to focus retention campaigns on customers most likely to leave.
+### 3. Review Electronic Check Users
 
-6. **Use targeted retention strategies**
-   - Combine customer risk scores with contract type, tenure, service usage, and charges to design more personalized interventions.
+Investigate whether payment-related friction exists and encourage convenient alternative payment methods where appropriate.
+
+### 4. Strengthen Early Customer Engagement
+
+Develop onboarding and engagement programs for newer customers during their initial months with the company.
+
+### 5. Review Pricing and Perceived Value
+
+Investigate customers with higher monthly charges and determine whether tailored plans or additional benefits could improve retention.
+
+### 6. Prioritize High-Risk Customers
+
+Use predicted churn probabilities to prioritize retention campaigns and allocate customer-success resources toward customers with greater predicted risk.
+
+### 7. Use Predictions as a Prioritization Tool
+
+Churn predictions indicate risk rather than certainty. Predictions should therefore be combined with customer context before taking retention actions.
 
 ---
 
-## Project Structure
+# Project Structure
 
 ```text
-IBM_CUSTOMER_CHURN/
+Customer-Churn-Retention-Analysis/
 │
 ├── data/
 │   └── raw/
@@ -245,6 +422,7 @@ IBM_CUSTOMER_CHURN/
 │
 ├── notebooks/
 │   └── 01_customer_churn_analysis.ipynb
+│
 ├── output/
 │   └── Figures/
 │       ├── churn_rate_by_contract.png
